@@ -3,7 +3,7 @@ from typing import Iterator, Optional, Type
 
 from .SQLite import Sqlite3_Database
 from ..config import link_to_bot
-from .models import Subscribe
+from .models import TypeSubscribe, TypeAI
 
 
 class User:
@@ -24,13 +24,15 @@ class User:
             self.username: Optional[str] = kwargs.get("username")
             self.ref_link: str = kwargs.get("ref_link")
             self.subscribe: str = kwargs.get("subscribe")
+            self.type_ai: str = kwargs.get("type_ai")
 
         else:
             self.count_message: int = 10
             self.count_day: int = 3
             self.username: Optional[str] = None
             self.ref_link: str = f"{link_to_bot}?start={self.id}"
-            self.subscribe: str = Subscribe().free_subscribe
+            self.subscribe: str = TypeSubscribe().free_subscribe
+            self.type_ai: str = TypeAI().write
 
     def __iter__(self):
         dict_class = self.__dict__
@@ -48,10 +50,10 @@ class Users(Sqlite3_Database):
         Sqlite3_Database.__init__(self, db_file_name, table_name, *args)
         self.len = 0
 
-    def add(self, obj: User) -> Type[User]:
+    def add(self, obj: User) -> User | None:
         self.add_row(obj)
         self.len += 1
-        return User
+        return self.get(obj.id)
 
     def __len__(self):
         return self.len
@@ -76,6 +78,7 @@ class Users(Sqlite3_Database):
                 username=obj_tuple[3],
                 ref_link=obj_tuple[4],
                 subscribe=obj_tuple[5],
+                type_ai=obj_tuple[6],
             )
             return obj
         return None

@@ -19,6 +19,5 @@ if __name__ == "__main__":
                         # filemode="w",
                         format="%(levelname)s %(asctime)s %(message)s",
                         encoding='utf-8')
-
     with suppress(KeyboardInterrupt):
         asyncio.run(main())

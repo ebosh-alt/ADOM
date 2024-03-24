@@ -1,6 +1,6 @@
 from aiogram import Dispatcher, Bot
 
-api_key = ""
+api_key = "6179616567:AAGz4ykh1SgXq_EAKTb_lU1jZpyfhp8BOSY"
 
 dp = Dispatcher()
 bot = Bot(api_key, parse_mode="Markdown")
